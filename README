@@ -1,0 +1,20 @@
+== Intro ==
+
+This project implements a custom, full-featured OpenERP module currently used by an italian language school to manage students and courses.
+
+== Why open ==
+The code is strongly customized to meet customer's needs (which are very particular), so I don't think it'll be useful as a general purpose module for schools. Anyway, the code shows several keypoints a developer meets while writing an OpenERP extension module, so I think it's worth to keep it available for the community as a reference. The license is GPLv3.
+
+== Features ==
+The module depends on poweremail module written by Sharoon Thomas (http://openlabs.co.in) and shows how to implement custom templates which support attachments.
+
+It also depends on report_openoffice module (http://kndati.lv/index.php/en/openerp/open-erp-addons/reporting-engine) and uses .odt files as report templates.
+
+Other features in random order:
+ * Models inheritance across modules
+ * Views inheritance across modules
+ * Data loading at startup
+ * Demo data
+ * Module-level localization
+ * ORM tips'n'tricks
+
