@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2010 Evonove srl <info@evonove.it>
+#
+# This file is part of language_school OpenERP addon.
+#
+# language_school is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# language_school is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+-->
+<openerp>
+    <data>
+        <menuitem name="Scuola" id="menu_school" icon="STOCK_PREFERENCES" sequence="-10" />
+        <menuitem name="Configurazione" id="menu_config" parent="menu_school" icon="STOCK_OPEN" sequence="1"/>
+        <menuitem name="Avanzate" id="menu_advanced" parent="menu_school" icon="STOCK_PROPERTIES" sequence="2"/>
+
+        <!-- alia stay form -->
+        <record model="ir.ui.view" id="view_stays_form">
+            <field name="name">language.school.stay.form</field>
+            <field name="model">language.school.stay</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Aggiungi permanenza studente">
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field domain="[('lodge', '=', True)]" name="lodge_id"/>
+                </form>
+            </field>
+        </record>
+        <!-- alia stay tree -->
+        <record model="ir.ui.view" id="view_stays_tree">
+            <field name="name">language.school.stay.tree</field>
+            <field name="model">language.school.stay</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Permanenze">
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="lodge_id"/>
+                </tree>
+            </field>
+        </record>
+        <!-- stays action -->
+        <record model="ir.actions.act_window" id="action_stay_form">
+            <field name="name">Permanenze</field>
+            <field name="res_model">language.school.stay</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_stays_tree"/>
+        </record>
+        <menuitem name="Permanenze" parent="menu_advanced" id="menu_stays" action="action_stay_form"/>
+        
+        <!-- alia teacher form (inherited from res.partner.contact) -->
+        <record id="teacher_form_inherited_1" model="ir.ui.view">
+          <field name="name">res.partner.contact.form</field>
+          <field name="model">res.partner.contact</field>
+          <field name="inherit_id" ref="base_contact.view_partner_contact_form"/> 
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+            <xpath expr="/form/notebook/page" position="inside">
+              <!-- show associated sessions -->
+              <field name="skype_id"/>
+              <field name="address"/>
+              <field name="fax"/>
+              <field name="note" colspan="4"/>
+              <field name="teacher"/>
+              <field name="session_ids" attrs="{'invisible': [('teacher', '=', False)] }" colspan="4" nolabel="1" />
+            </xpath>
+          </field>
+        </record>
+        <!-- alia teacher tree (inherited from res.partner.contact) -->
+        <record model="ir.ui.view" id="view_teacher_tree_inherited">
+          <field name="name">res.partner.contact.tree</field>
+          <field name="model">res.partner.contact</field>
+          <field name="type">tree</field>
+          <field name="inherit_id" ref="base_contact.view_partner_contact_tree"/> 
+          <field name="arch" type="xml">
+            <xpath expr="/tree" position="replace">
+            <tree>
+              <field name="name"/>
+              <field name="first_name"/>
+              <field name="mobile"/>
+              <field name="email"/>
+              <field name="skype_id"/>
+              <field name="country_id" select="1"/>
+              <field name="partner_id"/>
+            </tree>
+            </xpath>
+          </field>
+        </record>
+        <!-- teachers action -->
+        <record model="ir.actions.act_window" id="action_teacher_form">
+            <field name="name">Insegnanti</field>
+            <field name="res_model">res.partner.contact</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="base_contact.view_partner_contact_tree"/>
+            <field name="domain">[('teacher','=',True)]</field>
+        </record>
+        <menuitem name="Insegnanti" parent="menu_school" id="menu_teachers" action="action_teacher_form"/>
+        
+        <!-- alia session form -->
+        <record model="ir.ui.view" id="view_session_form">
+          <field name="name">language.school.session.form</field>
+          <field name="model">language.school.session</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+            <form string="Sessione">
+              <field name="name"/>
+              <field name="type"/>
+              <field name="start_date"/>
+              <field name="end_date"/>
+              <field name="level_in" widget="selection"/>
+              <field name="level_out" widget="selection"/>
+              <field name="hours"/>
+              <field name="teacher_id"/>
+              <field name="cost"/>
+              <field name="description" colspan="4"/>
+            </form>
+          </field>
+        </record>
+        <!-- alia session tree -->
+        <record model="ir.ui.view" id="view_session_tree">
+            <field name="name">language.school.session.tree</field>
+            <field name="model">language.school.session</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Sessioni">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="level_in"/>
+                    <field name="level_out"/>
+                    <field name="hours"/>
+                    <field name="teacher_id"/>
+                </tree>
+            </field>
+        </record>
+        <!-- sessions action -->
+        <record model="ir.actions.act_window" id="action_session">
+            <field name="name">Sessioni</field>
+            <field name="res_model">language.school.session</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_session_tree"/>
+        </record>
+        <menuitem name="Sessioni" parent="menu_advanced" id="menu_session" action="action_session"/>
+
+
+        <!-- alia course form -->
+        <record model="ir.ui.view" id="view_course_form">
+            <field name="name">language.school.course.form</field>
+            <field name="model">language.school.course</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Corso" col="6">
+                    <field name="student_id" select="1"/>
+                    <separator colspan="6" string="Sessioni" />
+                    <field name="id" invisible="1"/>
+                    <field name="session_ids" colspan="6" nolabel="1" on_change="onchange_session(session_ids)"/>
+                    <separator colspan="6" string="Dati riepilogativi" />
+                    <field name="level_in" widget="selection" select="2"/>
+                    <field name="level_out" widget="selection" select="2"/>
+                    <field name="level_next" widget="selection"/>
+                    <newline />
+                    <field name="start_date" select="1"/>
+                    <field name="end_date" select="1"/>
+                    <newline />
+                    <field name="hours"/>
+                    <field name="individual_hours"/>
+                    <newline />
+                    <field name="cfu"/>
+                    <separator colspan="6" string="Dati alloggio"/>
+                    <field name="stay_ids" colspan="6" nolabel="1"/>
+                    <separator colspan="6" string="Dati fatturazione"/>
+                    <field name="fee_ids" colspan="6" nolabel="1"/>
+                    <field name="total_amount" />
+                    <field name="invoice_to_contact" />
+                    <separator colspan="6" />
+                    <field name="notes" colspan="6"/>
+                </form>
+            </field>
+        </record>
+        <!-- alia course tree -->
+        <record model="ir.ui.view" id="view_course_tree">
+            <field name="name">language.school.course.tree</field>
+            <field name="model">language.school.course</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Corsi">
+                    <field name="id" invisible="1"/>
+                    <field name="student_id"/>
+                    <field name="session_ids"/>
+                    <field name="hours"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="proforma_sent_date"/>
+                    <field name="lodge_confirm_sent_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_course_calendar" model="ir.ui.view">
+          <field name="name">language.school.course.calendar</field>
+          <field name="model">language.school.course</field>
+          <field name="type">calendar</field>
+          <field name="arch" type="xml">
+            <calendar string="Corsi" color="student_id" date_start="start_date" date_stop="end_date">
+              <field name="student_id"/>
+            </calendar>
+          </field>
+        </record>
+        <!-- course action -->
+        <record model="ir.actions.act_window" id="action_course">
+            <field name="name">Corsi</field>
+            <field name="res_model">language.school.course</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_course_tree"/>
+            <field name="domain">[('session_ids','!=',False)]</field>
+            <!--<field name="search_view_id">search_courses</field>-->
+        </record>
+        <menuitem name="Corsi" parent="menu_school" id="menu_course" action="action_course"/>
+        
+        
+        <!-- alia course levels tree -->
+        <record model="ir.ui.view" id="view_course_level_tree">
+            <field name="name">language.school.course.level.tree</field>
+            <field name="model">language.school.course.level</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Livello corsi">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <!-- course levels action -->
+        <record model="ir.actions.act_window" id="action_course_level">
+            <field name="name">Livelli corso</field>
+            <field name="res_model">language.school.course.level</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_course_level_tree"/>
+        </record>
+        <menuitem name="Livelli corso" parent="menu_config" id="menu_course_level" action="action_course_level"/>
+
+
+        <!-- alia course fees form -->
+        <record model="ir.ui.view" id="view_course_fee_form">
+            <field name="name">language.school.course.fee.form</field>
+            <field name="model">language.school.course.fee</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Costi">
+                    <field name="name" colspan="2" on_change="onchange_course_fee(name)"/>
+                    <newline/>
+                    <field name="amount"/>
+                </form>
+            </field>
+        </record>
+        <!-- alia course fees tree -->
+        <record model="ir.ui.view" id="view_course_fee_tree">
+            <field name="name">language.school.course.fee.tree</field>
+            <field name="model">language.school.course.fee</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Costi">
+                    <field name="name"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+        <!-- course fees action -->
+        <record model="ir.actions.act_window" id="action_course_fee">
+            <field name="name">Costi</field>
+            <field name="res_model">language.school.course.fee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_course_fee_tree"/>
+        </record>
+
+
+        <!-- alia course fee types form -->
+        <record model="ir.ui.view" id="view_course_fee_types_form">
+            <field name="name">language.school.course.fee.types.form</field>
+            <field name="model">language.school.course.fee.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Costi">
+                    <field name="name" colspan="2"/>
+                    <field name="amount"/>
+                </form>
+            </field>
+        </record>
+        <!-- alia course fees tree -->
+        <record model="ir.ui.view" id="view_course_fee_types_tree">
+            <field name="name">language.school.course.fee.types.tree</field>
+            <field name="model">language.school.course.fee.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Costi">
+                    <field name="name"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+        <!-- course fees action -->
+        <record model="ir.actions.act_window" id="action_course_fee_types">
+            <field name="name">Tipologie Costi</field>
+            <field name="res_model">language.school.course.fee.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_course_fee_types_tree"/>
+        </record>
+        <menuitem name="Tipologie Costi" parent="menu_config" id="menu_course_fee_types" action="action_course_fee_types"/>
+        
+        
+        <!-- alia course voucher request form -->
+        <record model="ir.ui.view" id="view_voucher_request_form">
+            <field name="name">language.school.voucher.request.form</field>
+            <field name="model">language.school.voucher.request</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Voucher">
+                    <field name="name"/>
+                    <field name="request_date"/>
+                    <field name="student_id"/>
+                </form>
+            </field>
+        </record>
+        <!-- alia course voucher request tree -->
+        <record model="ir.ui.view" id="view_voucher_request_tree">
+          <field name="name">language.school.voucher.request.tree</field>
+          <field name="model">language.school.voucher.request</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Voucher">
+                    <field name="name"/>
+                    <field name="request_date"/>
+                    <field name="student_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- alia voucher form -->
+        <record model="ir.ui.view" id="view_voucher_form">
+            <field name="name">language.school.voucher.form</field>
+            <field name="model">language.school.voucher</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Voucher">
+                    <field name="name" colspan="2"/>
+                    <newline />
+                    <field name="desc" colspan="4"/>
+                    <separator />
+                    <field name="request_ids" colspan="4"/>
+                </form>
+            </field>
+        </record>
+        <!-- alia voucher tree -->
+        <record model="ir.ui.view" id="view_voucher_tree">
+          <field name="name">language.school.voucher.tree</field>
+          <field name="model">language.school.voucher</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Voucher">
+                    <field name="name"/>
+                    <field name="request_ids"/>
+                </tree>
+            </field>
+        </record>
+        <!-- course fees action -->
+        <record model="ir.actions.act_window" id="action_vouchers">
+            <field name="name">Voucher</field>
+            <field name="res_model">language.school.voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_voucher_tree"/>
+        </record>
+        <menuitem name="Voucher" parent="menu_advanced" id="menu_vouchers" action="action_vouchers"/>
+        
+    </data>
+</openerp>

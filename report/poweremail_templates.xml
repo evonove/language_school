@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="0">
+    <!-- ACCOMMODATION CONFIRM -->
+    <record id="accommodation_confirm" model="poweremail.templates">
+      <field name="name">Conferma Alloggio</field>
+      <field name="def_subject">Accommodation confirm</field>
+      <field name="def_to">${object.student_id.email or 'No Email'}</field>
+      <field name="def_body_text">
+Name: ${object.student_id.name}
+Surname: ${object.student_id.last_name}
+
+%for o in object.stay_ids:
+Accommodation: ${o.lodge_id.name}
+You can contact ${o.lodge_id.main_contact_id.first_name} ${o.lodge_id.main_contact_id.name} at the number ${o.lodge_id.main_contact_id.mobile or ''}.
+
+Alloggio: ${o.lodge_id.name}
+Contattare ${o.lodge_id.main_contact_id.first_name} ${o.lodge_id.main_contact_id.name} al numero di telefono ${o.lodge_id.main_contact_id.mobile or ''}.
+%endfor 
+      </field>
+      <field name="def_body_html">
+&lt;p&gt;
+Name: ${object.student_id.name}&lt;br /&gt;
+Surname: ${object.student_id.last_name}&lt;br /&gt;
+&lt;/p&gt;
+%for o in object.stay_ids:
+&lt;p&gt;
+Accommodation: ${o.lodge_id.name}&lt;br /&gt;
+You can contact ${o.lodge_id.main_contact_id.first_name} ${o.lodge_id.main_contact_id.name} at the number ${o.lodge_id.main_contact_id.mobile or ''}.&lt;br /&gt;
+&lt;/p&gt;
+&lt;p&gt;
+Alloggio: ${o.lodge_id.name}&lt;br /&gt;
+Contattare ${o.lodge_id.main_contact_id.first_name} ${o.lodge_id.main_contact_id.name} al numero di telefono ${o.lodge_id.main_contact_id.mobile or ''}.&lt;br /&gt;
+&lt;/p&gt;
+%endfor
+</field>
+      <field name="template_language">mako</field>
+      <field name="model_int_name">language.school.course</field>
+      <field name="object_name" model="ir.model" search="[('model', '=', 'language.school.course')]"/>
+      <field name="enforce_from_account">1</field>
+    </record>
+    
+    <!-- PROFORMA DOC -->
+    <record id="proforma_email" model="poweremail.templates">
+      <field name="name">Invia Proforma</field>
+      <field name="def_subject">Proforma invoice</field>
+      <field name="def_to">${object.student_id.email or 'No Email'}</field>
+      <field name="def_body_html">
+&lt;h1&gt;Evonove Language School&lt;/h1&gt;
+&lt;h2&gt;Proforma Invoice&lt;/h2&gt;
+&lt;table border=&quot;1&quot; bordercolor=&quot;#000000&quot; cellpadding=&quot;4&quot;
+ cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;
+  &lt;col width=&quot;64*&quot;&gt; &lt;col width=&quot;64*&quot;&gt; &lt;col
+ width=&quot;64*&quot;&gt; &lt;col width=&quot;64*&quot;&gt; &lt;tbody&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;name&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.student_id.name}&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;surname&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.student_id.last_name}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;address&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td colspan=&quot;3&quot; width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.get_invoice_address() or '-'}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;vat&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td colspan=&quot;3&quot; width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.get_vat_number()}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;tel&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.student_id.telephone1 or '-'}&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;fax&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.student_id.fax or '-'}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;e-mail&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.student_id.email or '-'}&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;skype&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.student_id.skype_id or '-'}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;accommodation&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td colspan=&quot;3&quot; width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${object.get_accommodations()}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;course&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td colspan=&quot;3&quot; width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt; &lt;% import time %&gt; ${time.strftime(&quot;%d/%m/%Y&quot;, time.strptime(object.start_date,&quot;%Y-%m-%d&quot;))}  - ${time.strftime(&quot;%d/%m/%Y&quot;, time.strptime(object.end_date, &quot;%Y-%m-%d&quot;))} &lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p align=&quot;left&quot;&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;table border=&quot;1&quot; bordercolor=&quot;#000000&quot; cellpadding=&quot;4&quot;
+ cellspacing=&quot;0&quot; width=&quot;100%&quot;&gt;
+  &lt;col width=&quot;192*&quot;&gt; &lt;col width=&quot;64*&quot;&gt; &lt;tbody&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td bgcolor=&quot;#e6e6e6&quot; width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;center&quot;&gt;description&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td bgcolor=&quot;#e6e6e6&quot; width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;center&quot;&gt;amount&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;
+      % if object.fee_ids:
+      % for fee in object.fee_ids:
+      &lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;right&quot;&gt;&lt;br&gt;
+      &lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;${fee.name.name}&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;right&quot;&gt;${fee.amount}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;left&quot;&gt;
+      % endfor
+      % endif
+      &lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;right&quot;&gt;&lt;br&gt;
+      &lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr valign=&quot;top&quot;&gt;
+      &lt;td width=&quot;75%&quot;&gt;
+      &lt;p align=&quot;right&quot;&gt;&lt;b&gt;Total:&lt;/b&gt;&lt;/p&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;25%&quot;&gt;
+      &lt;p align=&quot;right&quot;&gt;${object.total_amount}&lt;/p&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+      </field>
+      <field name="template_language">mako</field>
+      <field name="model_int_name">language.school.course</field>
+      <field name="object_name" model="ir.model" search="[('model', '=', 'language.school.course')]"/>
+      <field name="enforce_from_account">1</field>
+    </record>
+  </data>
+</openerp>

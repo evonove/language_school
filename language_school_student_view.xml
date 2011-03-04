@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2010 Evonove srl <info@evonove.it>
+#
+# This file is part of language_school OpenERP addon.
+#
+# language_school is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# language_school is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+-->
+<openerp>
+  <data>
+    <!-- alia contact form (inherited from res.partner.contact) -->
+    <record id="view_partner_form_inherited_1" model="ir.ui.view">
+      <field name="name">res.partner.contact.form</field>
+      <field name="model">res.partner.contact</field>
+      <field name="inherit_id" ref="base_contact.view_partner_contact_form"/> 
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <xpath expr="/form/notebook/page/field[@name='partner_id']" position="replace">
+          <!-- make partner field visible -->
+          <field name="partner_id"/>
+        </xpath>
+      </field>
+    </record>
+    <record id="view_partner_form_inherited_2" model="ir.ui.view">
+      <field name="name">res.partner.contact.form</field>
+      <field name="model">res.partner.contact</field>
+      <field name="inherit_id" ref="base_contact.view_partner_contact_form"/> 
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <!-- hide jobs/function fields -->
+        <field name="job_ids" position="replace"/>
+      </field>
+    </record>
+    
+    <!-- alia student tree -->
+    <record model="ir.ui.view" id="view_alia_students_tree">
+        <field name="name">alia.students.tree</field>
+        <field name="model">language.school.alia.student</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="ALIA Student" position="replace">
+                <field name="name" select="1"/>
+                <field name="last_name" select="1"/>
+                <field name="last_course_date" select="1"/>
+                <field name="email"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
+    <!-- alia student form -->
+    <record model="ir.ui.view" id="view_alia_students_form">
+        <field name="name">alia.students.form</field>
+        <field name="model">language.school.alia.student</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="ALIA Student">
+                <field name="active"/>
+                <newline/>
+                <field name="name"/>
+                <field name="last_name"/>
+                <field name="birthdate"/>
+                <field name="country_id" select="2" widget="selection"/>
+                <notebook colspan="4">
+                    <page string="Informazioni Generali">
+                        <newline/>
+                        <field name="address"/>
+                        <field name="sex" select="2"/>
+                        <newline/>
+                        <field name="mobile1"/>
+                        <field name="telephone1"/>
+                        <field name="fax"/>
+                        <field name="skype_id"/>
+                        <field name="email" select="2"/>
+                        <field name="block_newsletter" select="2"/>
+                        <field name="website"/>
+                        <newline/>
+                        <field name="contact_id" select="1"/>
+                        <field name="academic_student" select="2"/>
+                        <newline/>
+                        <field name="note" colspan="4"/>
+                    </page>
+                    <page string="Corsi">
+                        <field name="course_ids" nolabel="1"/>
+                    </page>                   
+                    <page string="Voucher">
+                        <field name="voucher_req_ids" nolabel="1" />
+                    </page> 
+                </notebook>
+            </form>
+        </field>
+    </record>
+    <!-- all alia students action -->
+    <record model="ir.actions.act_window" id="action_all_students">
+        <field name="name">Studenti</field>
+        <field name="res_model">language.school.alia.student</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_alia_students_tree"/>
+    </record>
+    <menuitem name="Studenti" parent="menu_school" id="menu_students" action="action_all_students"/>
+    <!-- foreign alia students action -->
+    <record model="ir.actions.act_window" id="action_foreign_students_form">
+        <field name="name">Studenti stranieri</field>
+        <field name="res_model">language.school.alia.student</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_alia_students_tree"/>
+        <field name="domain">[('italian','!=',True)]</field>
+    </record>
+    <menuitem name="Studenti stranieri" parent="menu_students" id="menu_foreign_students" action="action_foreign_students_form"/>
+    <!-- italian alia students action -->
+    <record model="ir.actions.act_window" id="action_italian_students_form">
+        <field name="name">Studenti italiani</field>
+        <field name="res_model">language.school.alia.student</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_alia_students_tree"/>
+        <field name="domain">[('italian','=',True)]</field>
+    </record>
+    <menuitem name="Studenti italiani" parent="menu_students" id="menu_italian_students" action="action_italian_students_form"/>
+  </data>
+</openerp>

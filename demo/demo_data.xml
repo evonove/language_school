@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2010 Evonove srl <info@evonove.it>
+#
+# This file is part of language_school OpenERP addon.
+#
+# language_school is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# language_school is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+-->
+<openerp>
+  <data noupdate="True">
+    
+    <!-- LODGES -->
+    <record id="lodge0" model="res.partner">
+      <field name="name">Overlook Hotel</field>
+      <field name="lodge" eval="True"/>
+    </record>
+    <record id="lodge_address" model="res.partner.address">
+      <field name="partner_id" ref="lodge0"/>
+      <field name="street">via delle vie, 456</field>
+      <field name="zip">1337</field>
+      <field name="city">Perugia</field>
+      <field name="phone">(+39) 075 123456</field>
+      <field name="type">default</field>
+      <field model="res.country" name="country_id" ref="base.it"/>
+    </record>
+
+    <!-- CONTACTS -->
+    <record id="res_partner_contact0" model="res.partner.contact">
+      <field name="first_name">Porter</field>
+      <field name="name">Jack</field>
+      <field name="mobile">(+39) 123 4567890</field>
+    </record>
+    <record id="res_partner_job0" model="res.partner.job">
+      <field name="address_id" ref="lodge_address"/>
+      <field name="function_id" ref="language_school.contact_function"/>
+      <field name="contact_id" ref="res_partner_contact0"/>
+      <field name="sequence_partner">1</field>
+    </record>
+    
+    <!-- STUDENTS -->
+    <record id="student_1" model="language.school.alia.student">
+      <field name="name">Mario</field>
+      <field name="last_name">Rossi</field>
+      <field name="address">via delle vie, 123 - 09090 Roma</field>
+      <field name="email">mario.rossi@example.com</field>
+      <field name="country_id" model="res.country" search="[('code', '=', 'IT')]"/>
+    </record>
+    <record id="student_2" model="language.school.alia.student">
+      <field name="name">John</field>
+      <field name="last_name">Doe</field>
+      <field name="address">123 Anywhere Street, Springfield, NY, 1234</field>
+      <field name="email">jd@example.com</field>
+      <field name="country_id" model="res.country" search="[('code', '=', 'US')]"/>
+    </record>
+
+  </data>
+</openerp>

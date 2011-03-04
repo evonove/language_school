@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="report_course_certificate" model="ir.actions.report.xml">
+      <field name="name">Attestato Frequenza</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">language.school.course</field>
+      <field name="report_name">language.school.course.certificate</field>
+      <field name="report_type">oo-odt</field>
+      <field name="report_rml">language_school/report/attestato_frequenza.odt</field>
+      <field name="parser_state">default</field>
+    </record>
+
+    <record id="report_course_proforma" model="ir.actions.report.xml">
+      <field name="name">Fattura Proforma</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">language.school.course</field>
+      <field name="report_name">language.school.course.proforma</field>
+      <field name="report_type">oo-odt</field>
+      <field name="report_rml">language_school/report/proforma.odt</field>
+      <field name="parser_state">default</field>
+    </record>
+    
+    <record id="report_course_diploma" model="ir.actions.report.xml">
+      <field name="name">Diploma</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="model">language.school.course</field>
+      <field name="report_name">language.school.course.diploma</field>
+      <field name="report_type">oo-odt</field>
+      <field name="report_rml">language_school/report/diploma.odt</field>
+      <field name="parser_state">default</field>
+    </record>
+  </data>
+</openerp>

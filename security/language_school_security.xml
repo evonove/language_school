@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+  <data noupdate="False">
+
+    <!-- enable language_school menu visibility to users belonging to "Employee" group -->
+    <record id="language_school.menu_school" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+    <record id="language_school.menu_config" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+    <record id="language_school.menu_advanced" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+
+    <!-- enable poweremail menu -->
+    <record id="poweremail.menu_poweremail_administration_server" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+    <record id="poweremail.menu_poweremail_configuration_server" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+    <record id="poweremail.menu_poweremail_core_accounts_Personal_co" model="ir.ui.menu">
+      <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+
+  </data>
+</openerp>

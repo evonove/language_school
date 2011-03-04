@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2010 Evonove srl <info@evonove.it>
+#
+# This file is part of language_school OpenERP addon.
+#
+# language_school is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# language_school is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+-->
+<openerp>
+  <data noupdate="True">
+
+    <!-- FUNCTION FOR LODGE PORTERS -->
+    <record id="contact_function" model="res.partner.function">
+      <field name="name">Contatto</field>
+      <field name="code">CT</field>
+    </record>
+
+    <!-- CONTACT TITLES -->
+    <record id="title_prof" model="res.partner.title">
+      <field name="name">Professore</field>
+      <field name="shortcut">prof</field>
+      <field name="domain">contact</field>
+    </record>
+    <record id="title_prof_ita" model="res.partner.title">
+      <field name="name">Prof. Italiano</field>
+      <field name="shortcut">prof_ita</field>
+      <field name="domain">contact</field>
+    </record>
+    
+    <!-- POWEREMAIL COMPANY ACCOUNT -->
+    <record id="company_account" model="poweremail.core_accounts">
+      <field name="name">Mail Account</field>
+      <field name="user" ref="base.user_root"/>
+      <field name="email_id">noreply@example.com</field>
+      <field name="smtpserver">smtp.example.com</field>
+      <field name="smtpport">25</field>
+      <field name="send_pref">both</field>
+      <field name="company">yes</field>
+      <field name="status">draft</field>
+    </record>
+
+  </data>
+</openerp>

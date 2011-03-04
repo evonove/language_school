@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2010 Evonove srl <info@evonove.it>
+#
+# This file is part of language_school OpenERP addon.
+#
+# language_school is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# language_school is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+-->
+<openerp>
+  <data>
+    <!-- alia lodge form (inherited from partner) -->
+    <record id="view_partner_form_inherited" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/> 
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <xpath expr="/form/group" position="replace"> 
+            <group colspan="4" col="4">
+              <field name="name" select="1"/>
+              <field domain="[('domain', '=', 'partner')]" name="title"/>
+              <field name="lang" select="2"/>
+              <field name="lodge" select="1"/>
+              <field name="link_to_map" />
+              <field name="vat" />
+            </group>
+          </xpath>
+        </field>
+    </record>
+    <record id="view_partner_form_inherited2" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/> 
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <xpath expr="/form/notebook/page[@string='General']" position="inside">
+            <separator string="Foto" />
+            <field name="pics" nolabel="1" />
+          </xpath>
+        </field>
+    </record>
+    <!-- hide sale/purchase tab -->
+    <record id="view_partner_form_inherited3" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/> 
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <xpath expr="/form/notebook/page[@string='Sales &amp; Purchases']" position="replace">
+          </xpath>
+        </field>
+    </record>
+    <!-- hide History tab -->
+    <record id="view_partner_form_inherited4" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/> 
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <xpath expr="/form/notebook/page[@string='History']" position="replace">
+          </xpath>
+        </field>
+    </record>
+    <!-- alia lodge actions -->
+    <record model="ir.actions.act_window" id="action_lodge_form">
+        <field name="name">Alloggi</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="base.view_partner_tree"/>
+        <field name="domain">[('lodge','=',True)]</field>
+    </record>
+    <!-- contacts action -->
+    <record model="ir.actions.act_window" id="action_contacts_form">
+        <field name="name">Contatti</field>
+        <field name="res_model">res.partner.contact</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="base_contact.view_partner_contact_tree"/>
+        <field name="domain">[('teacher','=',False)]</field>
+    </record>
+    <record model="ir.actions.act_window" id="action_prof_ita_form">
+        <field name="name">Contatti</field>
+        <field name="res_model">res.partner.contact</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="base_contact.view_partner_contact_tree"/>
+        <field name="domain">[('title','=','prof_ita')]</field>
+    </record>
+    <menuitem name="Alloggi" parent="language_school.menu_school" id="menu_lodges" action="action_lodge_form"/>
+    <menuitem name="Contatti" parent="menu_lodges" id="menu_contacts" action="action_contacts_form"/>
+    <menuitem name="Professori di italiano" parent="menu_school" id="menu_prof_ita" action="action_prof_ita_form"/>
+  </data>
+</openerp>

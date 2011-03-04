@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_language_school_alia_student","language.school.alia.student","model_language_school_alia_student","base.group_user",1,1,1,1
+"access_language_school_stay","language.school.stay","model_language_school_stay","base.group_user",1,1,1,1
+access_student,language.school.alia.student,language_school.model_language_school_alia_student,base.group_user,1,1,1,1
+access_session,language.school.session,language_school.model_language_school_session,base.group_user,1,1,1,1
+access_course_level,language.school.course.level,language_school.model_language_school_course_level,base.group_user,1,1,1,1
